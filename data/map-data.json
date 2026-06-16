@@ -242,6 +242,23 @@
       "cooldown": "",
       "equipment": "",
       "notes": "makes between 2.8k-4k an hour"
+    },
+    {
+      "id": "marker_1781625131654_649c88",
+      "name": "Chicken Factory copy",
+      "category": "job",
+      "x": 29.11,
+      "y": 25.11,
+      "visibility": "public",
+      "controlledBy": "Rev MC",
+      "leaderName": "",
+      "leaderRank": "",
+      "jobType": "Legal Job",
+      "risk": "None",
+      "roles": "",
+      "cooldown": "",
+      "equipment": "",
+      "notes": "makes between 2.8k-4k an hour"
     }
   ]
 }
