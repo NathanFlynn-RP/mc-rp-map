@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MC RP Interactive Map</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div>
+          <p class="eyebrow">RP Server Tool</p>
+          <h1 id="mapTitle">1% MC Interactive Map</h1>
+        </div>
+        <button id="fivemCloseBtn" class="ghost-btn hidden" title="Close FiveM map">Close</button>
+      </div>
+
+      <div class="toolbar-grid">
+        <button id="editToggleBtn" class="primary-btn">Enable edit mode</button>
+        <button id="addMarkerBtn" class="secondary-btn">Add marker</button>
+        <button id="exportBtn" class="secondary-btn">Export JSON</button>
+        <label class="secondary-btn file-label">
+          Import JSON
+          <input id="importInput" type="file" accept="application/json,.json" />
+        </label>
+      </div>
+
+      <section class="panel">
+        <h2>Search</h2>
+        <input id="searchInput" type="search" placeholder="Search locations, jobs, leaders..." />
+      </section>
+
+      <section class="panel">
+        <h2>Filters</h2>
+        <div id="filterList" class="filter-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Marker list</h2>
+        <div id="markerList" class="marker-list"></div>
+      </section>
+
+      <section class="panel admin-panel">
+        <h2>Map settings</h2>
+        <label>
+          Map title
+          <input id="titleInput" type="text" />
+        </label>
+        <label>
+          Map image URL/path
+          <input id="mapImageInput" type="text" placeholder="data/default-map.svg or image URL" />
+        </label>
+        <label class="secondary-btn file-label wide">
+          Upload map image
+          <input id="mapImageUpload" type="file" accept="image/*" />
+        </label>
+        <label>
+          Edit mode PIN
+          <input id="pinInput" type="password" />
+        </label>
+        <button id="saveSettingsBtn" class="primary-btn">Save settings</button>
+        <button id="resetBtn" class="danger-btn">Reset local data</button>
+        <p class="hint">This PIN only hides editing in the browser. It is not secure server authentication.</p>
+      </section>
+
+      <section class="panel admin-panel github-panel">
+        <h2>GitHub auto-update</h2>
+        <p class="hint first-hint">Only admins/editors should enter a GitHub token. Viewers do not need one.</p>
+        <label>
+          GitHub owner
+          <input id="githubOwnerInput" type="text" placeholder="Example: nathanflynn-rp" />
+        </label>
+        <label>
+          Repository name
+          <input id="githubRepoInput" type="text" placeholder="Example: mc-rp-map" />
+        </label>
+        <label>
+          Branch
+          <input id="githubBranchInput" type="text" placeholder="main" />
+        </label>
+        <label>
+          Data file path
+          <input id="githubPathInput" type="text" placeholder="data/map-data.json" />
+        </label>
+        <label>
+          GitHub token
+          <input id="githubTokenInput" type="password" placeholder="Fine-grained token with Contents read/write" autocomplete="off" />
+        </label>
+        <label class="checkbox-label">
+          <input id="githubRememberTokenInput" type="checkbox" />
+          Remember token on this browser
+        </label>
+        <label class="checkbox-label">
+          <input id="githubAutoSaveInput" type="checkbox" />
+          Auto-save marker changes to GitHub
+        </label>
+        <div class="github-button-grid">
+          <button id="githubSaveConfigBtn" class="secondary-btn" type="button">Save GitHub config</button>
+          <button id="githubLoadBtn" class="secondary-btn" type="button">Load latest from GitHub</button>
+          <button id="githubSaveNowBtn" class="primary-btn" type="button">Save to GitHub now</button>
+        </div>
+        <p id="githubStatus" class="sync-status" data-tone="neutral">GitHub auto-save is off.</p>
+        <p class="hint">The map commits data/map-data.json to your repository. GitHub Pages can take a few minutes before every viewer sees the update.</p>
+      </section>
+    </aside>
+
+    <main class="map-area">
+      <div class="topbar">
+        <div>
+          <strong id="statusText">View mode</strong>
+          <span id="countText"></span>
+        </div>
+        <div class="topbar-actions">
+          <button id="zoomOutBtn" class="icon-btn">-</button>
+          <button id="zoomResetBtn" class="icon-btn">Reset</button>
+          <button id="zoomInBtn" class="icon-btn">+</button>
+        </div>
+      </div>
+
+      <div id="mapViewport" class="map-viewport">
+        <div id="mapContent" class="map-content">
+          <img id="mapImage" class="map-image" alt="RP map" draggable="false" />
+          <div id="markerLayer" class="marker-layer"></div>
+        </div>
+        <div id="clickHint" class="click-hint hidden">Double-click the map to place a marker.</div>
+      </div>
+    </main>
+  </div>
+
+  <div id="markerModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Marker editor</p>
+          <h2 id="modalTitle">Edit marker</h2>
+        </div>
+        <button id="closeModalBtn" class="ghost-btn">Close</button>
+      </div>
+
+      <form id="markerForm" class="form-grid">
+        <input id="markerId" type="hidden" />
+        <label>
+          Name
+          <input id="nameInput" type="text" required placeholder="Example: Sandy Shores Clubhouse" />
+        </label>
+        <label>
+          Category
+          <select id="categoryInput">
+            <option value="mc">MC location</option>
+            <option value="gang">Gang location</option>
+            <option value="job">Job</option>
+            <option value="equipment">Equipment</option>
+            <option value="intel">Leadership intel</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <label>
+          X position (%)
+          <input id="xInput" type="number" min="0" max="100" step="0.01" required />
+        </label>
+        <label>
+          Y position (%)
+          <input id="yInput" type="number" min="0" max="100" step="0.01" required />
+        </label>
+        <label>
+          Visibility
+          <select id="visibilityInput">
+            <option value="public">Public</option>
+            <option value="members">Members only</option>
+            <option value="leadership">Leadership only</option>
+            <option value="admin">Admin only</option>
+          </select>
+        </label>
+        <label>
+          Controlled by / Group
+          <input id="controlledByInput" type="text" placeholder="Example: Lost MC, Ballas, Vagos" />
+        </label>
+        <label>
+          Leader name
+          <input id="leaderNameInput" type="text" placeholder="Example: President / gang leader character" />
+        </label>
+        <label>
+          Leader rank/title
+          <input id="leaderRankInput" type="text" placeholder="Example: President, VP, Shot Caller" />
+        </label>
+        <label>
+          Job type
+          <input id="jobTypeInput" type="text" placeholder="Example: Club job, legal job, RP job" />
+        </label>
+        <label>
+          Risk level
+          <select id="riskInput">
+            <option value="None">None</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </label>
+        <label>
+          Required ranks/roles
+          <input id="rolesInput" type="text" placeholder="Example: Prospect, Full Patch, Officer" />
+        </label>
+        <label>
+          Cooldown
+          <input id="cooldownInput" type="text" placeholder="Example: 60 minutes" />
+        </label>
+        <label class="full-width">
+          Required equipment
+          <textarea id="equipmentInput" rows="3" placeholder="Example: radio, lockpick, tow truck, 2 bikes"></textarea>
+        </label>
+        <label class="full-width">
+          Notes / RP instructions
+          <textarea id="notesInput" rows="5" placeholder="Rules, RP notes, meeting instructions, etc."></textarea>
+        </label>
+        <div class="form-actions full-width">
+          <button type="submit" class="primary-btn">Save marker</button>
+          <button id="duplicateBtn" type="button" class="secondary-btn">Duplicate</button>
+          <button id="deleteMarkerBtn" type="button" class="danger-btn">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="popupTemplate">
+    <article class="popup-card">
+      <div class="popup-head">
+        <span class="popup-tag"></span>
+        <button class="popup-edit secondary-btn">Edit</button>
+      </div>
+      <h3></h3>
+      <dl></dl>
+      <p class="popup-notes"></p>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

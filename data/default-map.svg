@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1600" viewBox="0 0 1600 1600">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#223246"/>
+      <stop offset="1" stop-color="#101720"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1600" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#fff" stroke-width="2">
+    <path d="M0 200H1600M0 400H1600M0 600H1600M0 800H1600M0 1000H1600M0 1200H1600M0 1400H1600"/>
+    <path d="M200 0V1600M400 0V1600M600 0V1600M800 0V1600M1000 0V1600M1200 0V1600M1400 0V1600"/>
+  </g>
+  <path d="M573 87c189 61 257 193 342 301 59 75 109 127 212 160 174 57 292 213 290 388-2 216-168 364-353 436-213 83-453 89-652-25-173-99-280-257-280-451 0-218 113-365 278-476 77-52 80-220 163-333Z" fill="#384959" stroke="#d4d2bb" stroke-width="18" filter="url(#shadow)"/>
+  <path d="M471 359c115 38 210 151 243 270 31 111-10 215-101 283-82 62-119 167-78 263 45 105 160 163 278 153" fill="none" stroke="#c9ba87" stroke-width="34" stroke-linecap="round" opacity="0.8"/>
+  <path d="M1031 532c-108 81-155 202-128 352 29 161-23 288-174 373" fill="none" stroke="#c9ba87" stroke-width="24" stroke-linecap="round" opacity="0.7"/>
+  <path d="M816 271c54 100 98 166 197 216" fill="none" stroke="#8cbdd6" stroke-width="30" stroke-linecap="round" opacity="0.55"/>
+  <path d="M315 1036c141-21 281-8 420 39 119 40 233 41 342-20 84-47 162-39 229 25" fill="none" stroke="#c9ba87" stroke-width="24" stroke-linecap="round" opacity="0.72"/>
+  <g fill="#ffffff" opacity="0.88" font-family="Arial, sans-serif" text-anchor="middle">
+    <text x="800" y="735" font-size="64" font-weight="700">Custom RP Map Placeholder</text>
+    <text x="800" y="805" font-size="30">Upload your GTA V/FiveM map image in Map Settings</text>
+    <text x="800" y="855" font-size="24" opacity="0.82">Markers are saved in your browser and can be exported as JSON</text>
+  </g>
+</svg>

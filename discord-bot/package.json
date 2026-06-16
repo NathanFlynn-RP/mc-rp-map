@@ -1,0 +1,17 @@
+{
+  "name": "mc-rp-map-discord-bot",
+  "version": "1.0.0",
+  "description": "Discord slash command for the MC RP Interactive Map.",
+  "main": "bot.js",
+  "scripts": {
+    "register": "node register-commands.js",
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
