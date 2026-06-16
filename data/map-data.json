@@ -259,6 +259,23 @@
       "cooldown": "",
       "equipment": "basic fishing rod $200 ",
       "notes": "makes between 1k-2.5k an hour"
+    },
+    {
+      "id": "marker_1781642093124_cb3ef1",
+      "name": "Chop Shop  copy",
+      "category": "job",
+      "x": 52.46,
+      "y": 81.98,
+      "visibility": "members",
+      "controlledBy": "CB",
+      "leaderName": "",
+      "leaderRank": "",
+      "jobType": "Criminal Job",
+      "risk": "Medium",
+      "roles": "",
+      "cooldown": "",
+      "equipment": "Lockpick @ $35 per",
+      "notes": ""
     }
   ]
 }
