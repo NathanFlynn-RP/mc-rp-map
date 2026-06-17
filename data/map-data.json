@@ -276,6 +276,23 @@
       "cooldown": "",
       "equipment": "earns about $1.75k - $2.5k depending on tips",
       "notes": ""
+    },
+    {
+      "id": "marker_1781686524584_e967b6",
+      "name": "Varrio Davis Locos copy",
+      "category": "gang",
+      "x": 49.43,
+      "y": 84.5,
+      "visibility": "public",
+      "controlledBy": "VDL",
+      "leaderName": "Ramon Espina",
+      "leaderRank": "Jefe",
+      "jobType": "",
+      "risk": "Medium",
+      "roles": "",
+      "cooldown": "",
+      "equipment": "",
+      "notes": ""
     }
   ]
 }
